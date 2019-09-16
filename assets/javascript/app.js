@@ -57,9 +57,10 @@ $(document).ready(function () {//// Variables
     let correctAnswers = 0;
     let wrongAnswers = 0;
     // let answer = questions[questionIndex].answer;
-    let counter = 15;
+    let counter = 16;
     let userGuess = "";
     let betweenTime;
+    let unanswered = 0;
 
 
 
@@ -69,7 +70,22 @@ $(document).ready(function () {//// Variables
 
 
     function startQuestions() {
-        $("#start").hide();
+        questionIndex = 0;
+        correctAnswers = 0;
+        wrongAnswers = 0;
+        unanswered = 0;
+
+        $(".answeredRight").hide();
+        $(".answeredWrong").hide();
+        $(".unanswered").hide();
+        $(".questionDiv").show();
+        $(".timeRemaining").show();
+       
+
+        
+        
+     $("#start").hide();
+     
         nextQuestion();
         //startTime();
         //counterDisplay();
@@ -82,12 +98,13 @@ $(document).ready(function () {//// Variables
     //ask questions
     //needs if else depending on answering or running out of time
     function nextQuestion() {
-
+        
         answerStop();
+        startTime();
 
 
 
-        counter = 15;
+        counter = 16;
 
 
         // counterDisplay();
@@ -116,26 +133,55 @@ $(document).ready(function () {//// Variables
         else {
             stop();
             $(".timeRemaining").hide();
-
-
-
-            console.log("done");
+            $(".questionDiv").hide();
+            $(".answeredRight").show();
+            $(".answeredWrong").show();
+            $(".unanswered").show();
+            $(".answeredRight").html("Correct Answers: " + correctAnswers);
+            $(".answeredWrong").html("Wrong Answers: " + wrongAnswers);
+            $(".unanswered").html("Unanswered: " + unanswered);
+            $("#start").show();
+            $("#start").on("click", restartQuestions);
         }
 
 
 
 
 
-        startTime();
+       // startTime();
 
 
 
-        $(".ansOptions").on("click", userGuessed);
+        $(".ansOptions").one("click", userGuessed);
 
         //if (questionAnswered === false) {
         // startTime();
 
 
+
+
+    };
+
+    // function restartQuestions(){
+    //     questionIndex = 0;
+    //     correctAnswers = 0;
+    //     wrongAnswers = 0;
+
+    //     $(".answeredRight").hide();
+    //     $(".answeredWrong").hide();
+    //     $(".questionDiv").show();
+    //     $(".timeRemaining").show();
+
+    //     $("#start").hide();
+        
+    //     nextQuestion();
+
+
+    // }
+
+    function restartQuestions(){
+        stop();
+        startQuestions();
 
 
     };
@@ -151,7 +197,7 @@ $(document).ready(function () {//// Variables
         userGuess = parseInt(userGuess);
 
         console.log(userGuess);
-        console.log(questions[questionIndex].answer);
+       
 
         if (userGuess === questions[questionIndex].answer) {
             stop();
@@ -160,6 +206,7 @@ $(document).ready(function () {//// Variables
             $(".answerDiv").html("<p> You are Correct! </p>");
             //questionIndex++;
             timeForAnswer();
+            
 
             //startTime();
         }
@@ -177,6 +224,7 @@ $(document).ready(function () {//// Variables
             $(".answerDiv").html("You are Wrong!" + " The answer is: " + questions[questionIndex].options[questions[questionIndex].answer]);
             // questionIndex++;
             timeForAnswer();
+            
 
             //startTime();
 
@@ -244,6 +292,7 @@ $(document).ready(function () {//// Variables
 
         questionIndex++;
         betweenTime = setTimeout(nextQuestion, 1000 * 3);
+       
 
 
 
@@ -269,7 +318,8 @@ $(document).ready(function () {//// Variables
             $(".answerDiv").html("You ran out of time!" + " The answer is: " + questions[questionIndex].options[questions[questionIndex].answer]);
             //questionIndex++;
             timeForAnswer();
-            wrongAnswers++;
+            
+            unanswered++;
             console.log("You ran out of time!");
 
 
@@ -296,15 +346,9 @@ $(document).ready(function () {//// Variables
 
     //answers - need to get index number of selected answer and compare to correct answer
 
-    function checkAnswer() {
 
 
-
-
-
-    };
-
-    $("#start").on("click", startQuestions);
+    $("#start").one("click", startQuestions);
 
 
 
