@@ -61,6 +61,7 @@ $(document).ready(function () {//// Variables
     let userGuess = "";
     let betweenTime;
     let unanswered = 0;
+    let images = ["./assets/images/hanson.jpg", "./assets/images/hanson1.jpg", "./assets/images/hanson3.jpg", "./assets/images/hansonOld.jpg","./assets/images/hansonOld2.jpg", "./assets/images/hansonYoung.jpg","./assets/images/hansonYoung2.jpg","./assets/images/hansonYoung3.jpg" ]
 
 
 
@@ -98,7 +99,7 @@ $(document).ready(function () {//// Variables
     //ask questions
     //needs if else depending on answering or running out of time
     function nextQuestion() {
-        
+        $(".images").hide();
         answerStop();
         startTime();
 
@@ -185,7 +186,11 @@ $(document).ready(function () {//// Variables
 
 
     };
+    function displayImage() {
+        $(".images").show();
 
+        $(".images").html("<img src= " + images[questionIndex] + " width='400px'>");
+      }
 
 
 
@@ -204,6 +209,7 @@ $(document).ready(function () {//// Variables
             correctAnswers++;
             console.log("right");
             $(".answerDiv").html("<p> You are Correct! </p>");
+            displayImage();
             //questionIndex++;
             timeForAnswer();
             
@@ -222,6 +228,7 @@ $(document).ready(function () {//// Variables
             // userGuess = "";
             console.log("wrong");
             $(".answerDiv").html("You are Wrong!" + " The answer is: " + questions[questionIndex].options[questions[questionIndex].answer]);
+            displayImage();
             // questionIndex++;
             timeForAnswer();
             
@@ -316,7 +323,7 @@ $(document).ready(function () {//// Variables
             //stopCounterDisplay();
 
             $(".answerDiv").html("You ran out of time!" + " The answer is: " + questions[questionIndex].options[questions[questionIndex].answer]);
-            //questionIndex++;
+            displayImage();//questionIndex++;
             timeForAnswer();
             
             unanswered++;
@@ -328,6 +335,8 @@ $(document).ready(function () {//// Variables
 
 
         }
+
+       
 
          
     };
