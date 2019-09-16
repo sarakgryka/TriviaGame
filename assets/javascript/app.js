@@ -64,13 +64,13 @@ $(document).ready(function () {//// Variables
 
     //Start button onclick
 
-    $("#start").on("click", startQuestions)
+
+    
 
     function startQuestions() {
         $("#start").hide();
-
         nextQuestion();
-
+        startTime();
         console.log("start was clicked");
 
 
@@ -80,88 +80,101 @@ $(document).ready(function () {//// Variables
     //ask questions
     //needs if else depending on answering or running out of time
     function nextQuestion() {
+        
 
         let askQuestion = questions[questionIndex].question;
 
         $(".questionDiv").text(askQuestion);
 
-        $(".optionsToQuestion").empty();
+        $(".ansOptions").empty();
 
         for (let i = 0; i < questions[questionIndex].options.length; i++) {
 
             let answerOptions = $("<div>");
-            answerOptions.addClass("optionsToQuestion");
+            answerOptions.addClass("ansOptions");
             answerOptions.html(questions[questionIndex].options[i]);
-            answerOptions.attr("data-guessvalue", i);
-            $(".optionsDiv").append(answerOptions);
+            answerOptions.attr("guessValue", i);
+            $("#optionsDiv").append(answerOptions);
 
             console.log(questions[questionIndex].options[i]);
 
         }
 
+        $(".ansOptions").on("click", userGuessed);
+   
         //if (questionAnswered === false) {
-           // startTime();
-        
-
-        };
-
-        $(".optionsToQuestion").on("click", function() {
-
-            userGuess= parseInt($(this).attr("data-guessvalue"));
-            console.log("answer click");
-
-            if (userGuess === questions[questionIndex].answer) {
-
-                stop();
-                correctAnswers ++;
-                userGuess;
-                console.log("right");
-                $(".answerDiv").html("<p> You are Correct! </p>");
-                nextQuestion();
-            }
-
-            else {
-
-                stop();
-                wrongAnswers ++;
-                userGuess;
-                console.log("wrong");
-                $(".answerDiv").html("<p> You are Wrong! </p>");
-                nextQuestion();
+        // startTime();
 
 
-            }
-
-
-        // for ( i = 0; i < answerOptions.length; i ++) {
-
-        // let list = $("<li>");
-        // list.addClass("choices");
-        // list.attr("value", answerOptions[i]);
-        // $(".optionsDiv").append(answerOptions[i]);
-        // //$(".optionsDiv").text(answerOptions[i]);
-
-
-         });
-
-
-
-
-
-        // console.log(questions[0].question);
-        /// $(".questionDiv").text(questions.question[0]);
-
+    };
 
 
     
 
+    function userGuessed() {
+
+        console.log("clicked");
+
+        userGuess = ($(this).attr("guessValue"));
+        userGuess = parseInt(userGuess);
+
+        console.log("answer click");
+
+        if (userGuess === questions[questionIndex].answer) {
+
+            stop();
+            correctAnswers++;
+            userGuess;
+            console.log("right");
+            $(".answerDiv").html("<p> You are Correct! </p>");
+            nextQuestion();
+            startTime();
+        }
+
+        else {
+
+            stop();
+            wrongAnswers++;
+            userGuess;
+            console.log("wrong");
+            $(".answerDiv").html("<p> You are Wrong! </p>");
+            nextQuestion();
+            startTime();
+
+
+        }
+    };
+
+
+    // for ( i = 0; i < answerOptions.length; i ++) {
+
+    // let list = $("<li>");
+    // list.addClass("choices");
+    // list.attr("value", answerOptions[i]);
+    // $(".optionsDiv").append(answerOptions[i]);
+    // //$(".optionsDiv").text(answerOptions[i]);
+
+
+
+
+
+
+
+
+    // console.log(questions[0].question);
+    /// $(".questionDiv").text(questions.question[0]);
+
+
+
+
+
     function startTime() {
 
-       // showQuestions = setTimeout(nextQuestion, 1000 * 15);
+        showQuestions = setTimeout(startQuestions, 1000 * 15);
         questionIndex++;
     };
 
-    function stop(){
+    function stop() {
 
         clearTimeout(showQuestions);
     }
@@ -175,6 +188,8 @@ $(document).ready(function () {//// Variables
 
 
     };
+
+    $("#start").on("click", startQuestions);
 
 
 
