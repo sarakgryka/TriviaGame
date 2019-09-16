@@ -56,9 +56,9 @@ $(document).ready(function () {//// Variables
     let questionAsked = false;
     let correctAnswers = 0;
     let wrongAnswers = 0;
-// let answer = questions[questionIndex].answer;
+    // let answer = questions[questionIndex].answer;
     let counter = 15;
-    let userGuess= "";
+    let userGuess = "";
     let betweenTime;
 
 
@@ -66,7 +66,7 @@ $(document).ready(function () {//// Variables
     //Start button onclick
 
 
-    
+
 
     function startQuestions() {
         $("#start").hide();
@@ -84,46 +84,64 @@ $(document).ready(function () {//// Variables
     function nextQuestion() {
 
         answerStop();
-        
-       
-        let askQuestion = questions[questionIndex].question;
-        counter = 15;
-        
-        
-       // counterDisplay();
 
-        $(".questionDiv").text(askQuestion);
+
+
+        counter = 15;
+
+
+        // counterDisplay();
         $(".answerDiv").empty();
         $(".ansOptions").empty();
-        
 
-        for (let i = 0; i < questions[questionIndex].options.length; i++) {
+        if (questionIndex < 8) {
+            let askQuestion = questions[questionIndex].question;
 
-            let answerOptions = $("<div>");
-            answerOptions.addClass("ansOptions");
-            answerOptions.html(questions[questionIndex].options[i]);
-            answerOptions.attr("guessValue", i);
-            $("#optionsDiv").append(answerOptions);
+            $(".questionDiv").text(askQuestion);
+            console.log(questions[questionIndex].question);
 
-            console.log(questions[questionIndex].options[i]);
+            for (let i = 0; i < questions[questionIndex].options.length; i++) {
 
-            
+                let answerOptions = $("<div>");
+                answerOptions.addClass("ansOptions");
+                answerOptions.html(questions[questionIndex].options[i]);
+                answerOptions.attr("guessValue", i);
+                $("#optionsDiv").append(answerOptions);
 
+                console.log(questions[questionIndex].options[i]);
+            }
         }
+
+
+        else {
+            stop();
+            $(".timeRemaining").hide();
+
+
+
+            console.log("done");
+        }
+
+
+
+
+
         startTime();
 
-        
+
 
         $(".ansOptions").on("click", userGuessed);
-   
+
         //if (questionAnswered === false) {
         // startTime();
+
+
 
 
     };
 
 
-    
+
 
     function userGuessed() {
 
@@ -136,28 +154,30 @@ $(document).ready(function () {//// Variables
         console.log(questions[questionIndex].answer);
 
         if (userGuess === questions[questionIndex].answer) {
-           stop();
+            stop();
             correctAnswers++;
             console.log("right");
             $(".answerDiv").html("<p> You are Correct! </p>");
             //questionIndex++;
             timeForAnswer();
-            
+
             //startTime();
         }
 
-        
+        //else if()
+
+
 
         else {
 
-           stop();
+            stop();
             wrongAnswers++;
             // userGuess = "";
             console.log("wrong");
-            $(".answerDiv").html("You are Wrong!" + " the answer is " + questions[questionIndex].options[questions[questionIndex].answer]);
-           // questionIndex++;
+            $(".answerDiv").html("You are Wrong!" + " The answer is: " + questions[questionIndex].options[questions[questionIndex].answer]);
+            // questionIndex++;
             timeForAnswer();
-            
+
             //startTime();
 
 
@@ -193,20 +213,20 @@ $(document).ready(function () {//// Variables
 
     //     if(questionAsked === true)  {
 
-            
+
     //         showQuestions= true;
     //         intervalId = setInterval(counterDisplay, 1000);
-        
-        
+
+
     //       }
-        
-        
-        
-        
+
+
+
+
     // };
 
-    function startTime(){
-        counter = 15;
+    function startTime() {
+        counter = 16;
 
         showQuestions = setInterval(counterDisplay, 1000)
 
@@ -216,59 +236,63 @@ $(document).ready(function () {//// Variables
     function stop() {
 
         clearInterval(showQuestions);
-       
+
     }
 
-    function timeForAnswer () {
+    function timeForAnswer() {
         stop();
-        
-        questionIndex ++ ;
+
+        questionIndex++;
         betweenTime = setTimeout(nextQuestion, 1000 * 3);
-        
+
+
 
     }
 
-    function answerStop (){
+    function answerStop() {
 
         clearTimeout(betweenTime);
     }
 
     function counterDisplay() {
 
-        counter -- ;
+        counter--;
         $(".timeRemaining").text(counter);
-    
-
-    if (counter === 0){
-       stop();
-       counter = 15;
-        
-        //stopCounterDisplay();
-       
-        $(".answerDiv").html("You ran out of time!"+ " the answer is: " + questions[questionIndex].options[questions[questionIndex].answer]);
-        //questionIndex++;
-        timeForAnswer();
-        wrongAnswers++;
-        console.log( "You ran out of time!");
-        
-        
-        
-       
 
 
-    }};
+        if (counter === 0 ) {
+            stop();
+            //counter = 16;
 
-   
+            //stopCounterDisplay();
+
+            $(".answerDiv").html("You ran out of time!" + " The answer is: " + questions[questionIndex].options[questions[questionIndex].answer]);
+            //questionIndex++;
+            timeForAnswer();
+            wrongAnswers++;
+            console.log("You ran out of time!");
 
 
-    
+
+
+
+
+        }
+
+         
+    };
+
+
+
+
+
 
     // function stopCounterDisplay (){
 
     //     clearTimeout(showQuestions);
     // }
 
-  
+
 
     //answers - need to get index number of selected answer and compare to correct answer
 
