@@ -59,6 +59,7 @@ $(document).ready(function () {//// Variables
 // let answer = questions[questionIndex].answer;
     let counter = 15;
     let userGuess= "";
+    let betweenTime;
 
 
 
@@ -70,8 +71,8 @@ $(document).ready(function () {//// Variables
     function startQuestions() {
         $("#start").hide();
         nextQuestion();
-        startTime();
-        counterDisplay();
+        //startTime();
+        //counterDisplay();
         console.log("start was clicked");
 
 
@@ -81,17 +82,20 @@ $(document).ready(function () {//// Variables
     //ask questions
     //needs if else depending on answering or running out of time
     function nextQuestion() {
+
+        answerStop();
         
        
         let askQuestion = questions[questionIndex].question;
         counter = 15;
-        startTime();
+        
         
        // counterDisplay();
 
         $(".questionDiv").text(askQuestion);
         $(".answerDiv").empty();
         $(".ansOptions").empty();
+        
 
         for (let i = 0; i < questions[questionIndex].options.length; i++) {
 
@@ -103,7 +107,10 @@ $(document).ready(function () {//// Variables
 
             console.log(questions[questionIndex].options[i]);
 
+            
+
         }
+        startTime();
 
         
 
@@ -129,8 +136,7 @@ $(document).ready(function () {//// Variables
         console.log(questions[questionIndex].answer);
 
         if (userGuess === questions[questionIndex].answer) {
-
-            stop();
+           stop();
             correctAnswers++;
             console.log("right");
             $(".answerDiv").html("<p> You are Correct! </p>");
@@ -144,7 +150,7 @@ $(document).ready(function () {//// Variables
 
         else {
 
-            stop();
+           stop();
             wrongAnswers++;
             // userGuess = "";
             console.log("wrong");
@@ -200,6 +206,7 @@ $(document).ready(function () {//// Variables
     // };
 
     function startTime(){
+        counter = 15;
 
         showQuestions = setInterval(counterDisplay, 1000)
 
@@ -209,17 +216,21 @@ $(document).ready(function () {//// Variables
     function stop() {
 
         clearInterval(showQuestions);
-        counter = 15;
+       
     }
 
     function timeForAnswer () {
         stop();
+        
         questionIndex ++ ;
-
         betweenTime = setTimeout(nextQuestion, 1000 * 3);
         
-        
 
+    }
+
+    function answerStop (){
+
+        clearTimeout(betweenTime);
     }
 
     function counterDisplay() {
@@ -229,13 +240,14 @@ $(document).ready(function () {//// Variables
     
 
     if (counter === 0){
+       stop();
+       counter = 15;
         
         //stopCounterDisplay();
-        stop();
-        timeForAnswer();
-        $(".answerDiv").html("<p> You ran out of time! </p>"+ " the answer is "+ questions[questionIndex].options[questions[questionIndex].answer]);
+       
+        $(".answerDiv").html("You ran out of time!"+ " the answer is: " + questions[questionIndex].options[questions[questionIndex].answer]);
         //questionIndex++;
-        nextQuestion();
+        timeForAnswer();
         wrongAnswers++;
         console.log( "You ran out of time!");
         
