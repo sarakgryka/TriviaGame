@@ -3,49 +3,49 @@ $(document).ready(function () {//// Variables
         {
             question: "Which of the following is NOT one of the Hanson Brothers?",
             options: ["Taylor", "Issac", "Jeff", "Zach"],
-            answer: "2"
+            answer: 2
         },
 
         {
             question: "What is the name of the craft beer Hanson created?",
             options: ["Brothers Beer", "MmmHops", "Longhaired IPA", "Middle of Nowhere Beer"],
-            answer: "1"
+            answer: 1
         },
 
         {
             question: "What city did Hanson grow up in?",
             options: ["Detroit, MI", "Tulsa, OK", "Salt Lake City, UT", "Los Angeles, CA"],
-            answer: "1"
+            answer: 1
         },
         {
             question: "Hanson only made two albums. ",
             options: ["True", "False"],
-            answer: "1"
+            answer: 1
         },
 
         {
             question: "Hanson left a mainstream record label and started their own label.",
 
             options: ["True", "False"],
-            answer: "0"
+            answer: 0
         },
 
         {
             question: "Hanson is still touring and creating new music.",
             options: ["True", "False"],
-            answer: "0"
+            answer: 0
         },
 
         {
             question: "What was the name of Hanson's first albumn?",
             options: ["Middle of Nowhere", "Underneath", "Shout it Out", "The Walk"],
-            answer: "0"
+            answer: 0
 
         },
         {
             question: "Hanson leads an initiative called Take The Walk, which raises money and awareness for poverty and AIDS in Africa.",
             options: ["True", "False"],
-            answer: "0"
+            answer: 0
 
         }];
 
@@ -53,12 +53,12 @@ $(document).ready(function () {//// Variables
 
     let showQuestions;
     let questionIndex = 0;
-    let questionAnswered = false;
+    let questionAsked = false;
     let correctAnswers = 0;
     let wrongAnswers = 0;
-    let answer = questions[questionIndex].answer;
+// let answer = questions[questionIndex].answer;
     let counter = 15;
-    let userGuess;
+    let userGuess= "";
 
 
 
@@ -71,6 +71,7 @@ $(document).ready(function () {//// Variables
         $("#start").hide();
         nextQuestion();
         startTime();
+        counterDisplay();
         console.log("start was clicked");
 
 
@@ -81,11 +82,15 @@ $(document).ready(function () {//// Variables
     //needs if else depending on answering or running out of time
     function nextQuestion() {
         
-
+       
         let askQuestion = questions[questionIndex].question;
+        counter = 15;
+        startTime();
+        
+       // counterDisplay();
 
         $(".questionDiv").text(askQuestion);
-
+        $(".answerDiv").empty();
         $(".ansOptions").empty();
 
         for (let i = 0; i < questions[questionIndex].options.length; i++) {
@@ -99,6 +104,8 @@ $(document).ready(function () {//// Variables
             console.log(questions[questionIndex].options[i]);
 
         }
+
+        
 
         $(".ansOptions").on("click", userGuessed);
    
@@ -118,28 +125,34 @@ $(document).ready(function () {//// Variables
         userGuess = ($(this).attr("guessValue"));
         userGuess = parseInt(userGuess);
 
-        console.log("answer click");
+        console.log(userGuess);
+        console.log(questions[questionIndex].answer);
 
         if (userGuess === questions[questionIndex].answer) {
 
             stop();
             correctAnswers++;
-            userGuess;
             console.log("right");
             $(".answerDiv").html("<p> You are Correct! </p>");
-            nextQuestion();
-            startTime();
+            //questionIndex++;
+            timeForAnswer();
+            
+            //startTime();
         }
+
+        
 
         else {
 
             stop();
             wrongAnswers++;
-            userGuess;
+            // userGuess = "";
             console.log("wrong");
-            $(".answerDiv").html("<p> You are Wrong! </p>");
-            nextQuestion();
-            startTime();
+            $(".answerDiv").html("You are Wrong!" + " the answer is " + questions[questionIndex].options[questions[questionIndex].answer]);
+           // questionIndex++;
+            timeForAnswer();
+            
+            //startTime();
 
 
         }
@@ -168,16 +181,82 @@ $(document).ready(function () {//// Variables
 
 
 
-    function startTime() {
+    // function startTime() {
 
-        showQuestions = setTimeout(startQuestions, 1000 * 15);
-        questionIndex++;
-    };
+    //     showQuestions = setTimeout(startQuestions, 1000 * 15);
+
+    //     if(questionAsked === true)  {
+
+            
+    //         showQuestions= true;
+    //         intervalId = setInterval(counterDisplay, 1000);
+        
+        
+    //       }
+        
+        
+        
+        
+    // };
+
+    function startTime(){
+
+        showQuestions = setInterval(counterDisplay, 1000)
+
+
+    }
 
     function stop() {
 
-        clearTimeout(showQuestions);
+        clearInterval(showQuestions);
+        counter = 15;
     }
+
+    function timeForAnswer () {
+        stop();
+        questionIndex ++ ;
+
+        betweenTime = setTimeout(nextQuestion, 1000 * 3);
+        
+        
+
+    }
+
+    function counterDisplay() {
+
+        counter -- ;
+        $(".timeRemaining").text(counter);
+    
+
+    if (counter === 0){
+        
+        //stopCounterDisplay();
+        stop();
+        timeForAnswer();
+        $(".answerDiv").html("<p> You ran out of time! </p>"+ " the answer is "+ questions[questionIndex].options[questions[questionIndex].answer]);
+        //questionIndex++;
+        nextQuestion();
+        wrongAnswers++;
+        console.log( "You ran out of time!");
+        
+        
+        
+       
+
+
+    }};
+
+   
+
+
+    
+
+    // function stopCounterDisplay (){
+
+    //     clearTimeout(showQuestions);
+    // }
+
+  
 
     //answers - need to get index number of selected answer and compare to correct answer
 
