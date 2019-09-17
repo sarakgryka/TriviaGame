@@ -61,13 +61,13 @@ $(document).ready(function () {//// Variables
     let userGuess = "";
     let betweenTime;
     let unanswered = 0;
-    let images = ["./assets/images/hanson.jpg", "./assets/images/hanson1.jpg", "./assets/images/hanson3.jpg", "./assets/images/hansonOld.jpg","./assets/images/hansonOld2.jpg", "./assets/images/hansonYoung.jpg","./assets/images/hansonYoung2.jpg","./assets/images/hansonYoung3.jpg" ]
+    let images = ["./assets/images/hanson.jpg", "./assets/images/hanson1.jpg", "./assets/images/hanson3.jpg", "./assets/images/hansonOld.jpg", "./assets/images/hansonOld2.jpg", "./assets/images/hansonYoung.jpg", "./assets/images/hansonYoung2.jpg", "./assets/images/hansonYoung3.jpg"]
 
 
 
     //Start button onclick
 
-
+    $(".timeRemaining").hide();
 
 
     function startQuestions() {
@@ -76,17 +76,18 @@ $(document).ready(function () {//// Variables
         wrongAnswers = 0;
         unanswered = 0;
 
+        $(".instructions").hide();
         $(".answeredRight").hide();
         $(".answeredWrong").hide();
         $(".unanswered").hide();
         $(".questionDiv").show();
         $(".timeRemaining").show();
-       
 
-        
-        
-     $("#start").hide();
-     
+
+
+
+        $("#start").hide();
+
         nextQuestion();
         //startTime();
         //counterDisplay();
@@ -99,13 +100,15 @@ $(document).ready(function () {//// Variables
     //ask questions
     //needs if else depending on answering or running out of time
     function nextQuestion() {
+        
         $(".images").hide();
         answerStop();
         startTime();
+        $(".timeRemaining").show();
 
 
 
-        counter = 16;
+        //counter = 16;
 
 
         // counterDisplay();
@@ -149,7 +152,7 @@ $(document).ready(function () {//// Variables
 
 
 
-       // startTime();
+        // startTime();
 
 
 
@@ -174,23 +177,26 @@ $(document).ready(function () {//// Variables
     //     $(".timeRemaining").show();
 
     //     $("#start").hide();
-        
+
     //     nextQuestion();
 
 
     // }
 
-    function restartQuestions(){
+    function restartQuestions() {
         stop();
         startQuestions();
 
 
     };
     function displayImage() {
+        $(".timeRemaining").empty();
+        counter = 16;
         $(".images").show();
-
+        $(".timeRemaining").hide();
+        
         $(".images").html("<img src= " + images[questionIndex] + " width='400px'>");
-      }
+    }
 
 
 
@@ -202,7 +208,7 @@ $(document).ready(function () {//// Variables
         userGuess = parseInt(userGuess);
 
         console.log(userGuess);
-       
+
 
         if (userGuess === questions[questionIndex].answer) {
             stop();
@@ -212,7 +218,7 @@ $(document).ready(function () {//// Variables
             displayImage();
             //questionIndex++;
             timeForAnswer();
-            
+
 
             //startTime();
         }
@@ -231,7 +237,7 @@ $(document).ready(function () {//// Variables
             displayImage();
             // questionIndex++;
             timeForAnswer();
-            
+
 
             //startTime();
 
@@ -299,7 +305,7 @@ $(document).ready(function () {//// Variables
 
         questionIndex++;
         betweenTime = setTimeout(nextQuestion, 1000 * 3);
-       
+
 
 
 
@@ -313,10 +319,10 @@ $(document).ready(function () {//// Variables
     function counterDisplay() {
 
         counter--;
-        $(".timeRemaining").text(counter);
+        $(".timeRemaining").text("Time Remaining: " + counter);
 
 
-        if (counter === 0 ) {
+        if (counter === 0) {
             stop();
             //counter = 16;
 
@@ -325,7 +331,7 @@ $(document).ready(function () {//// Variables
             $(".answerDiv").html("You ran out of time!" + " The answer is: " + questions[questionIndex].options[questions[questionIndex].answer]);
             displayImage();//questionIndex++;
             timeForAnswer();
-            
+
             unanswered++;
             console.log("You ran out of time!");
 
@@ -336,9 +342,9 @@ $(document).ready(function () {//// Variables
 
         }
 
-       
 
-         
+
+
     };
 
 

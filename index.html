@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,33 +8,73 @@
     <title>Document</title>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-<link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/style.css">
 
-<!-- <link ref = "stylesheet" href ="assets/css/reset.css"> -->
+    <!-- <link ref = "stylesheet" href ="assets/css/reset.css"> -->
 
-<script src="https://code.jquery.com/jquery.js"></script>
-<script src="assets/javascript/app.js"></script>
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="assets/javascript/app.js"></script>
 </head>
+
 <body>
+    <nav class="navbar navbar-light bg-light">
+        <span class="navbar-brand mb-0 h1">Hanson Trivia!</span>
+    </nav>
+    <div class="container">
 
-        <button type="button" class="btn btn-primary btn-lg" id="start">Click if you're MmmReady!</button>
-        <div class = "questionDiv"></div>
-        <div id = "optionsDiv"></div>
-        <div class = "answerDiv"></div>
-        <div class ="images"></div>
-        <div class = "timeRemaining"></div>
-        <div class ="answeredRight"></div>
-        <div class ="answeredWrong"></div>
-        <div class ="unanswered"></div>
+        <div class="row">
+            <div class="col md 1">
+            </div>
 
-
-
-    
+            <div class="col md 10">
 
 
+                <button type="button" class="btn btn-lg" id="start">Click here if you're MmmReady!</button>
+                <br>
+                <br>
+                <div class="instructions">
 
-    
+                    <ul>Click to start the game!</ul>
+                    <ul>You will have 15 seconds to answer reach question. </ul>
+                    <ul> There are both multiple choice and true and false questions.</ul>
+                    <ul> Please click on your answer.</ul>
+                    <ul> Your score will be revealed at the end! </ul>
+                    <br>
+                    <img src="assets/images/hansonOld.jpg" width="350px">
+                    <img src="assets/images/hansonLogo3.jpg" width="350px">
+
+
+                </div>
+                <div class="questionDiv"></div>
+                <br>
+                <div id="optionsDiv"></div>
+                <br>
+                <div class="answerDiv"></div>
+                <br>
+                <div class="images"></div>
+                <br>
+                <!-- <div class="timeRemaining"></div> -->
+
+                <button type="button" class="timeRemaining btn btn-lg" id="start"></button>
+                <br>
+                <div class="answeredRight"></div>
+                <div class="answeredWrong"></div>
+                <div class="unanswered"></div>
+            </div>
+            <div class="col md 1">
+            </div>
+
+
+
+
+
+
+        </div>
+    </div>
+
+
 </body>
+
 </html>
