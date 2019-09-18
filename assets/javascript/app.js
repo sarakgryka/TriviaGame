@@ -1,3 +1,6 @@
+
+
+
 $(document).ready(function () {//// Variables
     let questions = [
         {
@@ -53,35 +56,35 @@ $(document).ready(function () {//// Variables
 
     let showQuestions;
     let questionIndex = 0;
-    let questionAsked = false;
     let correctAnswers = 0;
     let wrongAnswers = 0;
-    // let answer = questions[questionIndex].answer;
     let counter = 16;
     let userGuess = "";
     let betweenTime;
     let unanswered = 0;
     let images = ["./assets/images/hanson.jpg", "./assets/images/hanson1.jpg", "./assets/images/hanson3.jpg", "./assets/images/hansonOld.jpg", "./assets/images/hansonOld2.jpg", "./assets/images/hansonYoung.jpg", "./assets/images/hansonYoung2.jpg", "./assets/images/hansonYoung3.jpg"]
+    let mySound;
 
 
-
-    //Start button onclick
+    //hiding timer from main page//
 
     $(".timeRemaining").hide();
 
-
+//function called when the start button is clicked, resets information and hides divs//
     function startQuestions() {
         questionIndex = 0;
         correctAnswers = 0;
         wrongAnswers = 0;
         unanswered = 0;
+        
 
         $(".instructions").hide();
         $(".answeredRight").hide();
         $(".answeredWrong").hide();
         $(".unanswered").hide();
         $(".questionDiv").show();
-        $(".timeRemaining").show();
+       // $(".timeRemaining").show();
+       
 
 
 
@@ -89,31 +92,29 @@ $(document).ready(function () {//// Variables
         $("#start").hide();
 
         nextQuestion();
-        //startTime();
-        //counterDisplay();
+        
+    
         console.log("start was clicked");
 
 
 
+
+
     }
-    //start timer
-    //ask questions
-    //needs if else depending on answering or running out of time
+   //function that displays the questions and answers for the player to select
     function nextQuestion() {
+
+
+        
         
         $(".images").hide();
         answerStop();
         startTime();
-        $(".timeRemaining").show();
-
-
-
-        //counter = 16;
-
-
-        // counterDisplay();
+       // $(".timeRemaining").show();
         $(".answerDiv").empty();
         $(".ansOptions").empty();
+
+        //loops through answer options and displays the potentional answers 
 
         if (questionIndex < 8) {
             let askQuestion = questions[questionIndex].question;
@@ -126,8 +127,9 @@ $(document).ready(function () {//// Variables
                 let answerOptions = $("<div>");
                 answerOptions.addClass("ansOptions");
                 answerOptions.html(questions[questionIndex].options[i]);
-                answerOptions.attr("guessValue", i);
+                answerOptions.attr("data-guessValue", i);
                 $("#optionsDiv").append(answerOptions);
+               
 
                 console.log(questions[questionIndex].options[i]);
             }
@@ -146,49 +148,31 @@ $(document).ready(function () {//// Variables
             $(".unanswered").html("Unanswered: " + unanswered);
             $("#start").show();
             $("#start").on("click", restartQuestions);
+           
         }
 
 
 
 
 
-        // startTime();
+//on click function to answer questions//
 
-
-
-        $(".ansOptions").one("click", userGuessed);
-
-        //if (questionAnswered === false) {
-        // startTime();
-
+        $(".ansOptions").one("click", userGuessed) 
 
 
 
     };
 
-    // function restartQuestions(){
-    //     questionIndex = 0;
-    //     correctAnswers = 0;
-    //     wrongAnswers = 0;
-
-    //     $(".answeredRight").hide();
-    //     $(".answeredWrong").hide();
-    //     $(".questionDiv").show();
-    //     $(".timeRemaining").show();
-
-    //     $("#start").hide();
-
-    //     nextQuestion();
-
-
-    // }
-
+  
+//function to restart game//
     function restartQuestions() {
         stop();
         startQuestions();
 
 
     };
+
+    //displays images from array//
     function displayImage() {
         $(".timeRemaining").empty();
         counter = 16;
@@ -199,31 +183,31 @@ $(document).ready(function () {//// Variables
     }
 
 
-
+//checks to see if the the userguess is right or wrong
     function userGuessed() {
 
         console.log("clicked");
 
-        userGuess = ($(this).attr("guessValue"));
+        userGuess = ($(this).attr("data-guessValue"));
         userGuess = parseInt(userGuess);
 
         console.log(userGuess);
 
+        
 
-        if (userGuess === questions[questionIndex].answer) {
+
+        if  (userGuess === questions[questionIndex].answer) {
             stop();
             correctAnswers++;
             console.log("right");
             $(".answerDiv").html("<p> You are Correct! </p>");
             displayImage();
-            //questionIndex++;
             timeForAnswer();
 
 
-            //startTime();
         }
 
-        //else if()
+        
 
 
 
@@ -231,63 +215,23 @@ $(document).ready(function () {//// Variables
 
             stop();
             wrongAnswers++;
-            // userGuess = "";
             console.log("wrong");
             $(".answerDiv").html("You are Wrong!" + " The answer is: " + questions[questionIndex].options[questions[questionIndex].answer]);
             displayImage();
-            // questionIndex++;
             timeForAnswer();
 
 
-            //startTime();
 
 
         }
     };
 
 
-    // for ( i = 0; i < answerOptions.length; i ++) {
 
-    // let list = $("<li>");
-    // list.addClass("choices");
-    // list.attr("value", answerOptions[i]);
-    // $(".optionsDiv").append(answerOptions[i]);
-    // //$(".optionsDiv").text(answerOptions[i]);
-
-
-
-
-
-
-
-
-    // console.log(questions[0].question);
-    /// $(".questionDiv").text(questions.question[0]);
-
-
-
-
-
-    // function startTime() {
-
-    //     showQuestions = setTimeout(startQuestions, 1000 * 15);
-
-    //     if(questionAsked === true)  {
-
-
-    //         showQuestions= true;
-    //         intervalId = setInterval(counterDisplay, 1000);
-
-
-    //       }
-
-
-
-
-    // };
 
     function startTime() {
         counter = 16;
+        $(".timeRemaining").show();
 
         showQuestions = setInterval(counterDisplay, 1000)
 
@@ -301,10 +245,12 @@ $(document).ready(function () {//// Variables
     }
 
     function timeForAnswer() {
+        
         stop();
 
         questionIndex++;
         betweenTime = setTimeout(nextQuestion, 1000 * 3);
+        
 
 
 
@@ -324,14 +270,9 @@ $(document).ready(function () {//// Variables
 
         if (counter === 0) {
             stop();
-            //counter = 16;
-
-            //stopCounterDisplay();
-
             $(".answerDiv").html("You ran out of time!" + " The answer is: " + questions[questionIndex].options[questions[questionIndex].answer]);
-            displayImage();//questionIndex++;
+            displayImage();
             timeForAnswer();
-
             unanswered++;
             console.log("You ran out of time!");
 
@@ -347,8 +288,18 @@ $(document).ready(function () {//// Variables
 
     };
 
+  
 
+    // window.onload = function(){
+    //     document.getElementById("my_audio").play();
+    // }
 
+    // function myFunction() {
+    //    document.getElementById("myAudio").autoplay;
+     
+        
+    //   }
+    //   myFunction();
 
 
 
@@ -365,32 +316,6 @@ $(document).ready(function () {//// Variables
 
     $("#start").one("click", startQuestions);
 
-
-
-    ///Questions creation, true and false and multiple choice 
-
-
-
-
-
-
-
-    /// onclick function to select answer
-    /// only one answer possible
-
-
-
-
-
-
-    ///if answered correctly congratulate, then move to next question 
-    /// if run out of time, tell display correct and next questions
-    /// if wrong show correct answer and next question 
-
-
-    /// show the final score - answered incorrectly and correctly 
-
-    //restart game 
 
 
 
